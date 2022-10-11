@@ -1,0 +1,102 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Node Exercise-2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        .fa-google {
+            background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <form>
+                    <!-- Name input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="name" name="name" placeholder="Name"
+                               class="form-control form-control-lg"/>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="email" id="email" name="email" placeholder="Email address"
+                               class="form-control form-control-lg"/>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <input type="password" id="password" name="password" placeholder="Password"
+                               class="form-control form-control-lg"/>
+                    </div>
+
+                    <!-- Confirm Password input -->
+                    <div class="form-outline mb-4">
+                        <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password"
+                               class="form-control form-control-lg"/>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="register()">Sign Up</button>
+                    <br>
+                    <div class="d-flex justify-content-around align-items-center mb-4">
+                        <!-- Checkbox -->
+                        <div class="form-outline">
+                            <label class="form-label"> Have already an account? </label>
+                            <a href="login.html">Sign In</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script type="application/javascript">
+    async function register () {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const cpassword = document.getElementById('cpassword').value;
+        const register = await fetch('http://localhost:3000/api/register', {
+            method: 'POST',
+            body: JSON.stringify({
+                'name': name,
+                'email': email,
+                'password': password,
+                'cpassword': cpassword,
+            }),
+            headers: { 'Content-type': 'application/json;charset=UTF-8' },
+        }).then(response => response.json()).then(json => {
+            !isEmpty(json.message) ? alert(json.message) : window.location.href = 'login.html';
+        }).catch(err => console.log(err, 'ko'));
+    }
+
+    window.isEmpty = (value) => {
+        return value === undefined || value === null || value === '';
+    };
+</script>
+</html>
